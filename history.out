@@ -1,0 +1,127 @@
+    1  2026-10-17 15:50:39 history -w
+    2  2026-10-17 15:50:39 history -w
+    3  2026-10-17 15:50:49 nmcli con show
+    4  2026-10-17 15:50:54 nmcli -g ipv4.method,connection.autoconnect con show enp0s1
+    5  2026-10-17 15:50:58 nmcli con mod enp0s1 ipv4.method auto connection.autoconnect yes
+    6  2026-10-17 15:51:00 nmcli con up enp0s1
+    7  2026-10-17 15:51:03 ip -4 addr show enp0s1
+    8  2026-10-17 15:51:07 hostnamectl hostname
+    9  2026-10-17 15:51:09 hostname -f
+   10  2026-10-17 15:51:12 hostnamectl set-hostname mephi-2026.domain.local
+   11  2026-10-17 15:51:16 ping -c 4 8.8.8.8 > ~/ping.out
+   12  2026-10-17 15:51:19 cat ~/ping.out
+   13  2026-10-17 15:51:44 echo 'exclude=grub2-*' >> /etc/dnf/dnf.conf
+   14  2026-10-17 15:51:47 dnf -y upgrade
+   15  2026-10-17 15:52:59 history -a
+   16  2026-10-17 15:53:01 reboot
+   17  2026-10-17 15:55:18 uname -r
+   18  2026-10-17 15:55:29 dnf -y install nginx libcap-ng-utils
+   19  2026-10-17 15:55:35 rpm -q tcpdump
+   20  2026-10-17 15:55:38 dnf download --destdir=/tmp tcpdump
+   21  2026-10-17 15:55:57 ls /tmp/
+   22  2026-10-17 15:56:02 rpm -ivh /tmp/tcpdump-4.99.5-1.red80.aarch64.rpm 
+   23  2026-10-17 15:56:08 rpm -q nginx libcap-ng-utils tcpdump
+   24  2026-10-17 15:56:58 lsblk
+   25  2026-10-17 15:57:43 history -a
+   26  2026-10-17 15:57:45 poweroff
+   27  2026-10-17 16:00:50 lsblk
+   28  2026-10-17 16:01:47 parted -s /dev/vdb mklabel gpt mkpart primary ext4 0% 100%
+   29  2026-10-17 16:01:50 lsblk /dev/vdb
+   30  2026-10-17 16:01:53 mkfs.ext4 -L MEPHI_WEB /dev/vdb1
+   31  2026-10-17 16:01:57 blkid /dev/vdb1
+   32  2026-10-17 16:02:09 mkdir /mephi-web
+   33  2026-10-17 16:02:18 echo 'LABEL=MEPHI_WEB  /mephi-web  ext4  defaults  0 2' >> /etc/fstab
+   34  2026-10-17 16:02:21 systemctl daemon-reload
+   35  2026-10-17 16:02:24 mount -a
+   36  2026-10-17 16:02:27 findmnt /mephi-web
+   37  2026-10-17 16:03:07 systemctl enable --now nginx
+   38  2026-10-17 16:03:11 systemctl is-enabled nginx
+   39  2026-10-17 16:03:13 systemctl is-active nginx
+   40  2026-10-17 16:03:23 journalctl -u nginx -b > ~/journalctl.out
+   41  2026-10-17 16:03:25 cat ~/journalctl.out
+   42  2026-10-17 16:09:15 groupadd -g 5500 mephi-dev
+   43  2026-10-17 16:09:18 useradd -u 5501 -G mephi-dev -m -s /bin/bash user1
+   44  2026-10-17 16:09:21 useradd -u 5502 -G mephi-dev -m -s /bin/bash user2
+   45  2026-10-17 16:09:24 useradd -u 5503 -G mephi-dev -m -s /bin/bash user3
+   46  2026-10-17 16:09:26 groupadd -g 4444 curators
+   47  2026-10-17 16:09:30 useradd -G curators curator1
+   48  2026-10-17 16:09:32 useradd -G curators curator2
+   49  2026-10-17 16:09:36 id user1
+   50  2026-10-17 16:09:38 id curator1
+   51  2026-10-17 16:11:06 mkdir -p /data/mephi-2026
+   52  2026-10-17 16:11:11 chown root:mephi-dev /data/mephi-2026
+   53  2026-10-17 16:11:15 chmod 2770 /data/mephi-2026
+   54  2026-10-17 16:11:18 setfacl -m g:curators:r-x /data/mephi-2026
+   55  2026-10-17 16:11:22 setfacl -d -m u::rwx,g::rwx,g:mephi-dev:rwx,g:curators:r-x,o::--- /data/mephi-2026
+   56  2026-10-17 16:11:25 getfacl /data/mephi-2026
+   57  2026-10-17 16:11:30 sudo -u user1 sh -c 'echo test > /data/mephi-2026/f1'
+   58  2026-10-17 16:11:33 sudo -u user2 sh -c 'echo more >> /data/mephi-2026/f1'
+   59  2026-10-17 16:11:37 sudo -u user3 cat /data/mephi-2026/f1
+   60  2026-10-17 16:11:41 sudo -u curator1 cat /data/mephi-2026/f1
+   61  2026-10-17 16:11:45 sudo -u curator1 sh -c 'echo x >> /data/mephi-2026/f1'
+   62  2026-10-17 16:11:48 sudo -u curator1 touch /data/mephi-2026/f2
+   63  2026-10-17 16:11:51 sudo -u nobody ls /data/mephi-2026
+   64  2026-10-17 16:11:55 getfacl /data/mephi-2026/f1
+   65  2026-10-17 16:11:59 stat /data/mephi-2026 > ~/stat.out
+   66  2026-10-17 16:12:02 cat ~/stat.out
+   67  2026-10-17 16:12:45 ls -l /usr/sbin/tcpdump
+   68  2026-10-17 16:12:55 sudo -u user1 tcpdump -i any -c 3
+   69  2026-10-17 16:13:37 setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
+   70  2026-10-17 16:13:40 sudo -u user1 tcpdump -i any -c 3
+   71  2026-10-17 16:13:44 getcap /usr/sbin/tcpdump > ~/getcap.out
+   72  2026-10-17 16:13:47 cat ~/getcap.out
+   73  2026-10-17 16:14:11 getenforce
+   74  2026-10-17 16:15:52 dnf -y install policycoreutils-python-utils
+   75  2026-10-17 16:15:57 semodule -B
+   76  2026-10-17 16:16:03 ls -Zd /mephi-web
+   77  2026-10-17 16:16:06 semanage fcontext -a -t httpd_sys_content_t "/mephi-web(/.*)?"
+   78  2026-10-17 16:16:10 restorecon -Rv /mephi-web
+   79  2026-10-17 16:16:12 ls -Zd /mephi-web
+   80  2026-10-17 16:16:24 grep -n 'root' /etc/nginx/nginx.conf
+   81  2026-10-17 16:16:30 sed -i 's|root\s*/usr/share/nginx/html;|root /mephi-web;|' /etc/nginx/nginx.conf
+   82  2026-10-17 16:16:33 grep -n 'root' /etc/nginx/nginx.conf
+   83  2026-10-17 16:16:35 nginx -t
+   84  2026-10-17 16:16:38 systemctl restart nginx
+   85  2026-10-17 16:16:42 getenforce > ~/getenforce.out
+   86  2026-10-17 16:16:44 cat ~/getenforce.out
+   87  2026-10-17 16:18:17 cat /etc/pam.d/login
+   88  2026-10-17 16:18:35 echo '-:(curators):LOCAL' >> /etc/security/access.conf
+   89  2026-10-17 16:18:41 echo 'account    required     pam_access.so' >> /etc/pam.d/login
+   90  2026-10-17 16:18:44 tail -3 /etc/security/access.conf
+   91  2026-10-17 16:18:47 tail -3 /etc/pam.d/login
+   92  2026-10-17 16:19:12 chage -M 90 b0shka
+   93  2026-10-17 16:19:14 chage -M 90 user1
+   94  2026-10-17 16:19:16 chage -M 90 user2
+   95  2026-10-17 16:19:20 chage -M 90 user3
+   96  2026-10-17 16:19:22 chage -M 90 curator1
+   97  2026-10-17 16:19:24 chage -M 90 curator2
+   98  2026-10-17 16:19:26 chage -l user1
+   99  2026-10-17 16:19:37 grep -n minlen /etc/security/pwquality.conf
+  100  2026-10-17 16:19:40 sed -i 's/^#\?\s*minlen\s*=.*/minlen = 12/' /etc/security/pwquality.conf
+  101  2026-10-17 16:19:43 grep -n minlen /etc/security/pwquality.conf
+  102  2026-10-17 16:19:46 grep pwquality /etc/pam.d/system-auth
+  103  2026-10-17 16:20:15 passwd user1
+  104  2026-10-17 16:20:35 passwd user2
+  105  2026-10-17 16:20:38 passwd user3
+  106  2026-10-17 16:20:50 passwd curator1
+  107  2026-10-17 16:20:55 passwd curator2
+  108  2026-10-17 16:21:01 su - user1
+  109  2026-10-17 16:22:56 grep ^PASS_MAX_DAYS /etc/login.defs
+  110  2026-10-17 16:23:01 sed -i 's/^PASS_MAX_DAYS.*/PASS_MAX_DAYS\t90/' /etc/login.defs
+  111  2026-10-17 16:23:03 grep ^PASS_MAX_DAYS /etc/login.defs
+  112  2026-10-17 16:23:20 sudo -i user1
+  113  2026-10-17 16:23:26 su - user1
+  114  2026-10-17 16:25:29 journalctl -t login -n 5
+  115  2026-10-17 16:26:27 journalctl -t login -n 3
+  116  2026-10-17 16:27:32 echo "Hello from Student: 374869" > /mephi-web/index.html
+  117  2026-10-17 16:27:37 ls -Z /mephi-web/index.html
+  118  2026-10-17 16:27:40 curl http://localhost/
+  119  2026-10-17 16:30:08 ls ~/*.out
+  120  2026-10-17 16:30:21 dnf history > ~/dnf.out
+  121  2026-10-17 16:30:23 ls ~/*.out
+  122  2026-10-17 16:30:31 mkdir ~/mephi-session-project-2026
+  123  2026-10-17 16:30:37 cp ~/ping.out ~/stat.out ~/getcap.out ~/dnf.out ~/journalctl.out ~/getenforce.out ~/curl.out ~/mephi-session-project-2026/
+  124  2026-10-17 16:30:47 curl http://localhost/ > ~/curl.out
+  125  2026-10-17 16:30:49 cp ~/ping.out ~/stat.out ~/getcap.out ~/dnf.out ~/journalctl.out ~/getenforce.out ~/curl.out ~/mephi-session-project-2026/
+  126  2026-10-17 16:31:02 cp /etc/fstab /etc/passwd /etc/shadow /etc/group /etc/security/pwquality.conf ~/mephi-session-project-2026/
+  127  2026-10-17 16:31:31 history > ~/mephi-session-project-2026/history.out
